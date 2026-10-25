@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>병아리 상점가 · AI로 만드는 작은 웹 가게들</title>
+<meta name="description" content="생각을 태우는 식당, 하루를 계산하는 편의점, 응원을 뽑는 오락실. 병아리 상점가는 오늘도 영업합니다.">
+<meta property="og:title" content="병아리 상점가">
+<meta property="og:description" content="AI로 만드는 작은 웹 가게들 · 오늘도 영업합니다 🐣">
+<meta property="og:image" content="https://piyo-shop.github.io/hero.png">
+<link rel="icon" href="favicon.png">
+<style>
+:root{--bg:#fff6fb;--ink:#2a1a40;--muted:#7a6b9a;--card:#ffffff;--line:#efe3f7;--pink:#ff5fb0;--purple:#7a46e0;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#18122c;--ink:#f3ecff;--muted:#b4a6d8;--card:#241b40;--line:#352a5a;color-scheme:dark}}
+*{box-sizing:border-box}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.6;padding-bottom:env(safe-area-inset-bottom,0px)}
+img{image-rendering:pixelated;max-width:100%}
+.hero{width:100%;display:block;aspect-ratio:3/1;object-fit:cover;object-position:center}
+.wrap{max-width:880px;margin:0 auto;padding:24px 18px 56px}
+h1{font-size:28px;margin:8px 0 4px}
+.sub{color:var(--muted);margin:0 0 24px}
+h2{font-size:20px;margin:32px 0 12px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+.shop{display:flex;gap:14px;align-items:center;background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;text-decoration:none;color:inherit;transition:transform .12s}
+.shop:hover{transform:translateY(-3px)}
+.shop img{width:72px;height:auto;flex:none}
+.shop b{display:block;font-size:17px}
+.shop span{font-size:13px;color:var(--muted)}
+.tag{display:inline-block;font-size:12px;font-weight:700;color:#fff;border-radius:999px;padding:2px 10px;margin-bottom:4px}
+.shop .tag{color:#fff;font-size:12px}
+.soon{opacity:.6;border-style:dashed}
+.soon .ph{width:72px;height:72px;border-radius:14px;background:var(--line);display:flex;align-items:center;justify-content:center;font-size:30px;flex:none}
+.sns{display:flex;gap:10px;flex-wrap:wrap}
+.sns a{background:var(--purple);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:12px}
+footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
+</style>
+</head>
+<body>
+<img class="hero" src="hero.png" alt="불이 켜진 병아리 상점가 거리와 사장님들">
+<div class="wrap">
+  <h1>🐣 병아리 상점가에 어서 오세요</h1>
+  <p class="sub">가입 없이, 무료로, 브라우저에서 바로 쓰는 작은 웹 가게들이에요. 오늘도 영업합니다!</p>
+
+  <h2>영업 중인 가게</h2>
+  <div class="grid">
+    <a class="shop" href="/thinking-diner/"><img src="pikook.png" alt="셰프 삐쿡"><div><span class="tag" style="background:#c94a2a">1호점</span><b>생각식당</b><span>복잡한 생각을 화덕에 태우고 좋은 생각만 포장해 가요</span></div></a>
+    <a class="shop" href="/chick-store/"><img src="pipi.png" alt="점장 삐삐"><div><span class="tag" style="background:#ff5fb0">2호점</span><b>하루 마감 편의점</b><span>오늘 한 일을 바코드로 찍고 영수증으로 계산해요</span></div></a>
+    <a class="shop" href="/chick-arcade/"><img src="pippyong.png" alt="사장 삐뿅"><div><span class="tag" style="background:#7a46e0">3호점</span><b>병아리 오락실</b><span>하루 코인 5개로 응원 인형을 뽑아요</span></div></a>
+  </div>
+
+  <h2>곧 문을 열어요</h2>
+  <div class="grid">
+    <div class="shop soon"><div class="ph">🌸</div><div><b>꽃집 · 삐꽃</b><span>COMING SOON</span></div></div>
+    <div class="shop soon"><div class="ph">🔮</div><div><b>타로 점집 · 삐별</b><span>COMING SOON</span></div></div>
+    <div class="shop soon"><div class="ph">🍞</div><div><b>빵집 · 삐빵</b><span>COMING SOON</span></div></div>
+  </div>
+
+  <h2>상점가 선물</h2>
+  <div class="grid">
+    <a class="shop" href="/chick-stickers/"><img src="piyo.png" alt="오너 피요"><div><b>다꾸 스티커 29종</b><span>병아리 상점가 스티커를 무료로 나눠요</span></div></a>
+  </div>
+
+  <h2>소식 받기</h2>
+  <div class="sns">
+    <a href="https://www.instagram.com/piyo.ai/">인스타그램 @piyo.ai</a>
+  </div>
+
+  <footer>© 병아리 상점가 · 오너 피요 🎩</footer>
+</div>
+</body>
+</html>
