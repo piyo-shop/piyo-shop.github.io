@@ -17,6 +17,14 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 body{margin:0;background:var(--bg);color:var(--ink);font-family:"Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;line-height:1.6;padding-bottom:env(safe-area-inset-bottom,0px)}
 img{image-rendering:pixelated;max-width:100%}
 .hero{width:100%;display:block;aspect-ratio:3/1;object-fit:cover;object-position:center}
+.hero-box{position:relative;overflow:hidden}
+/* 11월: 은행잎이 천천히 떨어져요 */
+.leaf{position:absolute;top:-8%;width:clamp(7px,1.1%,14px);aspect-ratio:7/6;pointer-events:none;image-rendering:pixelated;
+  background:url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAcAAAAGCAYAAAAPDoR2AAAAOklEQVR4nGNgQAILqqT+I/OZkDnogBHG+HTIAK6Lz+4CWBysE1kCmc+ELMGrEoCiAMVORqkGuDUgAQC4ERLmSuC67QAAAABJRU5ErkJggg==) center/contain no-repeat;
+  animation:leaf-fall linear infinite}
+@keyframes leaf-fall{0%{top:-8%;transform:translateX(0) rotate(0)}25%{transform:translateX(14px) rotate(70deg)}50%{transform:translateX(-6px) rotate(160deg)}75%{transform:translateX(12px) rotate(250deg)}100%{top:104%;transform:translateX(0) rotate(340deg)}}
+.leaf.big{width:clamp(9px,1.4%,18px)}
+@media (prefers-reduced-motion:reduce){.leaf{animation-play-state:paused}}
 .wrap{max-width:880px;margin:0 auto;padding:24px 18px 56px}
 h1{font-size:28px;margin:8px 0 4px}
 .sub{color:var(--muted);margin:0 0 24px}
@@ -37,7 +45,28 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
 </style>
 </head>
 <body>
-<img class="hero" src="hero.png" alt="불이 켜진 병아리 상점가 거리와 사장님들">
+<div class="hero-box"><img class="hero" src="hero.png" alt="불이 켜진 병아리 상점가 거리와 사장님들"></div>
+<script>
+/* 계절 대문: 한국 시간 11월 1일~30일 자동, ?season=autumn 미리보기, ?season=off 기본 대문 */
+(() => {
+  const q = location.search;
+  const kst = new Date(Date.now() + 9*3600e3);
+  const on = /[?&]season=autumn/.test(q) ? true : /[?&]season=off/.test(q) ? false : kst.getUTCMonth() === 10;
+  if (!on) return;
+  const img = document.querySelector(".hero"), box = img.parentElement;
+  img.src = "hero_nov.png";
+  img.alt = "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 4호점 공사 부지";
+  for (let i = 0; i < 9; i++){
+    const s = document.createElement("span"), dur = 9 + (i * 7) % 6;
+    s.className = "leaf"; s.setAttribute("aria-hidden", "true");
+    s.style.left = (4 + i * 11 + (i % 3) * 3) + "%";
+    s.style.animationDuration = dur + "s";
+    s.style.animationDelay = -(i * 1.7 % dur) + "s";   // negative delay: already mid-fall, also when paused
+    if (i % 2) s.classList.add("big");
+    box.append(s);
+  }
+})();
+</script>
 <div class="wrap">
   <h1>🐣 병아리 상점가에 어서 오세요</h1>
   <p class="sub">가입 없이, 무료로, 브라우저에서 바로 쓰는 작은 웹 가게들이에요. 오늘도 영업합니다!</p>
