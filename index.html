@@ -42,20 +42,24 @@ h2{font-size:20px;margin:32px 0 12px}
 .sns{display:flex;gap:10px;flex-wrap:wrap}
 .sns a{background:var(--purple);color:#fff;text-decoration:none;font-weight:700;padding:10px 16px;border-radius:12px}
 footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
+[hidden]{display:none !important}
 </style>
 </head>
 <body>
 <div class="hero-box"><img class="hero" src="hero.png" alt="불이 켜진 병아리 상점가 거리와 사장님들"></div>
 <script>
-/* 계절 대문: 한국 시간 11월 1일~30일 자동, ?season=autumn 미리보기, ?season=off 기본 대문 */
+/* 계절 대문: 한국 시간 11월 1일~30일 자동, ?season=autumn 미리보기, ?season=off 기본 대문
+   4호점 오픈: 한국 시간 11/23 00:00부터 공사 부지 → 타로 점집, ?open=preview 미리보기 */
+const SHOP4_OPEN = /[?&]open=preview/.test(location.search) || Date.now() >= Date.parse("2026-11-23T00:00:00+09:00");
 (() => {
   const q = location.search;
   const kst = new Date(Date.now() + 9*3600e3);
   const on = /[?&]season=autumn/.test(q) ? true : /[?&]season=off/.test(q) ? false : kst.getUTCMonth() === 10;
   if (!on) return;
   const img = document.querySelector(".hero"), box = img.parentElement;
-  img.src = "hero_nov.png";
-  img.alt = "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 4호점 공사 부지";
+  img.src = SHOP4_OPEN ? "hero_nov_open.png" : "hero_nov.png";
+  img.alt = SHOP4_OPEN ? "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 새로 문을 연 4호점 타로 점집"
+                       : "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 4호점 공사 부지";
   for (let i = 0; i < 9; i++){
     const s = document.createElement("span"), dur = 9 + (i * 7) % 6;
     s.className = "leaf"; s.setAttribute("aria-hidden", "true");
@@ -76,12 +80,13 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
     <a class="shop" href="/thinking-diner/"><img src="pikook.png" alt="셰프 삐쿡"><div><span class="tag" style="background:#c94a2a">1호점</span><b>생각식당</b><span>복잡한 생각을 화덕에 태우고 좋은 생각만 포장해 가요</span></div></a>
     <a class="shop" href="/chick-store/"><img src="pipi.png" alt="점장 삐삐"><div><span class="tag" style="background:#ff5fb0">2호점</span><b>하루 마감 편의점</b><span>오늘 한 일을 바코드로 찍고 영수증으로 계산해요</span></div></a>
     <a class="shop" href="/chick-arcade/"><img src="pippyong.png" alt="사장 삐뿅"><div><span class="tag" style="background:#7a46e0">3호점</span><b>병아리 오락실</b><span>하루 코인 5개로 응원 인형을 뽑아요</span></div></a>
+    <a class="shop" id="shop4" href="/chick-tarot/" hidden><img src="byeol.png" alt="점술가 삐별"><div><span class="tag" style="background:#3d2b85">4호점</span><b>타로 점집</b><span>카드 세 장으로 오늘의 마음을 읽어요 · 하루 한 번</span></div></a>
   </div>
 
   <h2>곧 문을 열어요</h2>
   <div class="grid">
     <div class="shop soon"><div class="ph">🌸</div><div><b>꽃집 · 삐꽃</b><span>COMING SOON</span></div></div>
-    <div class="shop soon"><div class="ph">🔮</div><div><b>타로 점집 · 삐별</b><span>COMING SOON</span></div></div>
+    <div class="shop soon" id="soon4"><div class="ph">🔮</div><div><b>타로 점집 · 삐별</b><span>COMING SOON</span></div></div>
     <div class="shop soon"><div class="ph">🍞</div><div><b>빵집 · 삐빵</b><span>COMING SOON</span></div></div>
   </div>
 
@@ -97,5 +102,8 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
 
   <footer>© 병아리 상점가 · 오너 피요 🎩</footer>
 </div>
+<script>
+if (SHOP4_OPEN){ document.getElementById("shop4").hidden = false; document.getElementById("soon4").remove(); }
+</script>
 </body>
 </html>
