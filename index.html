@@ -24,7 +24,11 @@ img{image-rendering:pixelated;max-width:100%}
   animation:leaf-fall linear infinite}
 @keyframes leaf-fall{0%{top:-8%;transform:translateX(0) rotate(0)}25%{transform:translateX(14px) rotate(70deg)}50%{transform:translateX(-6px) rotate(160deg)}75%{transform:translateX(12px) rotate(250deg)}100%{top:104%;transform:translateX(0) rotate(340deg)}}
 .leaf.big{width:clamp(9px,1.4%,18px)}
-@media (prefers-reduced-motion:reduce){.leaf{animation-play-state:paused}}
+/* 12월: 작은 눈송이가 내려요 */
+.flake{position:absolute;top:-4%;width:clamp(3px,.45%,6px);aspect-ratio:1;background:#fff;opacity:.9;pointer-events:none;animation:snow-fall linear infinite}
+.flake.big{width:clamp(4px,.65%,9px)}
+@keyframes snow-fall{0%{top:-4%;transform:translateX(0)}50%{transform:translateX(10px)}100%{top:104%;transform:translateX(-4px)}}
+@media (prefers-reduced-motion:reduce){.leaf,.flake{animation-play-state:paused}}
 .wrap{max-width:880px;margin:0 auto;padding:24px 18px 56px}
 h1{font-size:28px;margin:8px 0 4px}
 .sub{color:var(--muted);margin:0 0 24px}
@@ -48,15 +52,31 @@ footer{margin-top:40px;font-size:13px;color:var(--muted);text-align:center}
 <body>
 <div class="hero-box"><img class="hero" src="hero.png" alt="불이 켜진 병아리 상점가 거리와 사장님들"></div>
 <script>
-/* 계절 대문: 한국 시간 11월 1일~30일 자동, ?season=autumn 미리보기, ?season=off 기본 대문
+/* 계절 대문: 한국 시간 11월 1일~30일 가을(은행잎), 12월 1일~31일 겨울(눈)
+   ?season=autumn · ?season=winter 미리보기, ?season=off 기본 대문
    4호점 오픈: 한국 시간 11/23 00:00부터 공사 부지 → 타로 점집, ?open=preview 미리보기 */
 const SHOP4_OPEN = /[?&]open=preview/.test(location.search) || Date.now() >= Date.parse("2026-11-23T00:00:00+09:00");
 (() => {
   const q = location.search;
-  const kst = new Date(Date.now() + 9*3600e3);
-  const on = /[?&]season=autumn/.test(q) ? true : /[?&]season=off/.test(q) ? false : kst.getUTCMonth() === 10;
-  if (!on) return;
+  const kst = new Date(Date.now() + 9*3600e3), m = kst.getUTCMonth();
+  const season = /[?&]season=off/.test(q) ? "" : /[?&]season=winter/.test(q) ? "winter" : /[?&]season=autumn/.test(q) ? "autumn"
+               : m === 11 ? "winter" : m === 10 ? "autumn" : "";
+  if (!season) return;
   const img = document.querySelector(".hero"), box = img.parentElement;
+  if (season === "winter"){
+    img.src = "hero_dec.png";
+    img.alt = "눈 내리는 12월 병아리 상점가 거리, 전구 가랜드와 털모자·귀마개를 한 사장님들, 크랜베리 코트를 입은 오너 피요";
+    for (let i = 0; i < 18; i++){
+      const s = document.createElement("span"), dur = 7 + (i * 5) % 6;
+      s.className = "flake"; s.setAttribute("aria-hidden", "true");
+      s.style.left = (2 + i * 5.5 + (i % 4) * 1.3) + "%";
+      s.style.animationDuration = dur + "s";
+      s.style.animationDelay = -(i * 1.3 % dur) + "s";   // 멈춤 상태에서도 화면 곳곳에 보이게
+      if (i % 3 === 0) s.classList.add("big");
+      box.append(s);
+    }
+    return;
+  }
   img.src = SHOP4_OPEN ? "hero_nov_open.png" : "hero_nov.png";
   img.alt = SHOP4_OPEN ? "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 새로 문을 연 4호점 타로 점집"
                        : "은행잎이 물든 11월 병아리 상점가 거리, 목도리를 두른 사장님들과 4호점 공사 부지";
